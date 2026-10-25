@@ -72,3 +72,8 @@ The biggest step. Followed Expo's guide: https://docs.expo.dev/router/migrate/sd
 - **Tab icon colour type:** `tabBarIcon` now passes a `ColorValue`, not a `string`. Changed the `TabBarIcon` prop type.
 - `expo-doctor` 21/22: one known issue, a **Hermes V1 memory regression** affecting SDK 56; Expo's advice is SDK 57 (expo ≥ 57.0.9). Left for the next step instead of patching around it.
 - Typecheck passes, web export works.
+
+## SDK 57 (React Native 0.86, expo-router 57)
+
+- No code changes. The Hermes V1 memory regression flagged at SDK 56 is gone (React Native 0.86.3 ships the fixed Hermes).
+- Typecheck passes, `expo-doctor` 21/21, web export works.
