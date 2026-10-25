@@ -24,4 +24,6 @@ Breaking changes fixed:
 - **`Link`'s `hrefAttrs` prop removed.** Use the plain `target="_blank"` prop (`components/ExternalLink.tsx`).
 - **`expo-router/babel` plugin deprecated**: `babel-preset-expo` now includes it, so it was removed from `babel.config.js`.
 
-Results: typecheck passes. Android API target is now 34 (the Play Store warning from SDK 49 is gone). Web export still hits the same Windows + Node 24 `node:sea` folder problem in the SDK 50 CLI; continuing.
+- **Missing peer dependency**: expo-router v3 needs `expo-constants` installed directly (`expo-doctor` flagged it; without it the app can crash outside Expo Go). Installed with `npx expo install expo-constants`.
+
+Results: typecheck passes; `expo-doctor` passes after the fix, and the Android API 33 store warning from SDK 49 is gone. Web export still hits the same Windows + Node 24 `node:sea` folder problem in the SDK 50 CLI; continuing.
