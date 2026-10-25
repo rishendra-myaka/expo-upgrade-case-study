@@ -41,3 +41,11 @@ The hardest step so far: no app code changed, but the dependency tree did.
 - Fix: add `query-string@^7.1.3` as a direct dependency (expo-router's code uses its v7 CommonJS API), keep `@react-navigation/native` at Expo's expected range `^7.0.14`, and install the new `expo-asset` requirement.
 - Results: typecheck passes, `expo-doctor` 18/18, web export works.
 - Lesson for clients: "it installs" is not "it builds". Run `expo-doctor` and a real export after every SDK step.
+
+## SDK 53 (React Native 0.79, **React 19**, expo-router v5, TypeScript 5.8)
+
+- `npx expo install --fix` stopped with **npm `ERESOLVE`**: the still-installed expo-router 4 had a peer range that excluded React Native 0.79, and the new expo-router 5 could not be installed while it was there. A deadlock that only shows up when upgrading in place.
+- Fix: `npx expo install --fix -- --legacy-peer-deps` (lets npm replace the whole set in one go), then confirm with `expo-doctor` that every version now matches the SDK.
+- Before that finished, the typecheck failed inside `expo/tsconfig.base.json` (`--module` value unknown): the new Expo base config needs TypeScript 5.4+, and the project was still on 5.3. Updated to 5.8 by the same command.
+- expo-router 5 still imports `query-string`, so the direct dependency added at SDK 52 stays.
+- Results: typecheck passes, `expo-doctor` 18/18, web export works.
