@@ -56,3 +56,10 @@ The hardest step so far: no app code changed, but the dependency tree did.
 - No code changes needed. Typecheck passes, `expo-doctor` 18/18, web export works.
 - **Workaround removed:** expo-router 6 now lists `query-string` as its own dependency, so the direct dependency added at SDK 52 was uninstalled and everything re-checked. Temporary fixes should be removed as soon as upstream catches up; this log is how you remember to.
 - Note for native builds: SDK 54 is the last SDK where the legacy React Native architecture is supported, and Android builds are edge-to-edge. This template has no custom native code, so nothing to change here; real client apps need a device check.
+
+## SDK 55 (React Native 0.83, React 19.2, expo-router 55)
+
+- From this SDK, expo-router's version number follows the SDK (55.x).
+- **Breaking type change:** React Native 0.83's `useColorScheme()` can return `'unspecified'` as well as `'light' | 'dark' | null`. The template indexed its palettes with `Colors[colorScheme ?? 'light']`, which no longer typechecks (and would be `undefined` at runtime for `'unspecified'`).
+- Fix: one small hook, `components/useTheme.ts`, that returns `'dark'` only for dark and `'light'` otherwise; used in `Themed.tsx` and the tab layout. One place to change instead of five.
+- Results: typecheck passes, `expo-doctor` 20/20, web export works.
