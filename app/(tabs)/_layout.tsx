@@ -12,7 +12,10 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: ColorValue;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  // Since React Native 0.88 a ColorValue can also be null or a processed number; the icon only takes
+  // strings or platform colours, so pass those and fall back to the default otherwise.
+  const color = props.color == null || typeof props.color === 'number' ? undefined : props.color;
+  return <FontAwesome size={28} style={{ marginBottom: -3 }} name={props.name} color={color} />;
 }
 
 export default function TabLayout() {

@@ -77,3 +77,28 @@ The biggest step. Followed Expo's guide: https://docs.expo.dev/router/migrate/sd
 
 - No code changes. The Hermes V1 memory regression flagged at SDK 56 is gone (React Native 0.86.3 ships the fixed Hermes).
 - Typecheck passes, `expo-doctor` 21/21, web export works.
+
+## SDK 58 (React Native 0.88, React 19.3, expo-router 58)
+
+- **`Text` and `View` are function components** in React Native 0.88, so `DefaultText['props']` no longer exists. Changed to `React.ComponentProps<typeof DefaultText>` (`components/Themed.tsx`).
+- **`ColorValue` can now be `null` or a processed number.** The icon library only accepts strings or platform colours, so `TabBarIcon` passes those through and falls back to the default otherwise.
+- Results: typecheck passes, `expo-doctor` 20/20, web export works.
+- **Runtime check** (web build served locally): Tab One renders, Tab Two renders, the modal opens from the header icon; no console errors from the app.
+
+## Summary
+
+| SDK | React Native | Code changes | Main problem |
+| --- | --- | --- | --- |
+| 48 | 0.71 | none (baseline) | old TypeScript can't read today's `@types/node` |
+| 49 | 0.72 | none | Play Store target warning; SDK 49 CLI vs Windows + Node 24 |
+| 50 | 0.73 | 3 | splash component removed, `hrefAttrs` removed, babel plugin, missing peer dep |
+| 51 | 0.74 | none | (web export works again) |
+| 52 | 0.76 | deps only | React Navigation 7 + missing `query-string` |
+| 53 | 0.79 | deps only | npm peer-dependency deadlock; React 19 |
+| 54 | 0.81 | none | removed the SDK 52 workaround |
+| 55 | 0.83 | 1 hook | `'unspecified'` colour scheme |
+| 56 | 0.85 | codemod + config | expo-router without React Navigation; splash config; Hermes regression |
+| 57 | 0.86 | none | Hermes fix |
+| 58 | 0.88 | 2 | function-component props, nullable `ColorValue` |
+
+Not covered (no device in this exercise): native iOS/Android builds and on-device checks. For a client app I would also run an EAS development build on a real device at SDK 52 (New Architecture), 55 and 58.
