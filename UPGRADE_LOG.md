@@ -49,3 +49,10 @@ The hardest step so far: no app code changed, but the dependency tree did.
 - Before that finished, the typecheck failed inside `expo/tsconfig.base.json` (`--module` value unknown): the new Expo base config needs TypeScript 5.4+, and the project was still on 5.3. Updated to 5.8 by the same command.
 - expo-router 5 still imports `query-string`, so the direct dependency added at SDK 52 stays.
 - Results: typecheck passes, `expo-doctor` 18/18, web export works.
+
+## SDK 54 (React Native 0.81, React 19.1, expo-router v6, TypeScript 5.9)
+
+- Upgraded with `--legacy-peer-deps` from the start (same in-place peer conflict as SDK 53).
+- No code changes needed. Typecheck passes, `expo-doctor` 18/18, web export works.
+- **Workaround removed:** expo-router 6 now lists `query-string` as its own dependency, so the direct dependency added at SDK 52 was uninstalled and everything re-checked. Temporary fixes should be removed as soon as upstream catches up; this log is how you remember to.
+- Note for native builds: SDK 54 is the last SDK where the legacy React Native architecture is supported, and Android builds are edge-to-edge. This template has no custom native code, so nothing to change here; real client apps need a device check.
