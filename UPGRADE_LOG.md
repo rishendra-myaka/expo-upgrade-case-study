@@ -63,3 +63,12 @@ The hardest step so far: no app code changed, but the dependency tree did.
 - **Breaking type change:** React Native 0.83's `useColorScheme()` can return `'unspecified'` as well as `'light' | 'dark' | null`. The template indexed its palettes with `Colors[colorScheme ?? 'light']`, which no longer typechecks (and would be `undefined` at runtime for `'unspecified'`).
 - Fix: one small hook, `components/useTheme.ts`, that returns `'dark'` only for dark and `'light'` otherwise; used in `Themed.tsx` and the tab layout. One place to change instead of five.
 - Results: typecheck passes, `expo-doctor` 20/20, web export works.
+
+## SDK 56 (React Native 0.85, React 19.2.3, expo-router 56, TypeScript 6.0)
+
+The biggest step. Followed Expo's guide: https://docs.expo.dev/router/migrate/sdk-55-to-56/
+- **expo-router no longer works alongside `@react-navigation/*` in app code.** The web build failed with "As of SDK 56, expo-router is no longer compatible with react-navigation". Ran Expo's codemod, `npx expo-codemod sdk-56-expo-router-react-navigation-replace app` (and `components`), which moved `DarkTheme`, `DefaultTheme` and `ThemeProvider` to `expo-router/react-navigation`, then uninstalled `@react-navigation/native`.
+- **Top-level `splash` config removed** (`expo-doctor` schema check). Moved the image, resize mode and background colour into the `expo-splash-screen` config plugin in `app.json`.
+- **Tab icon colour type:** `tabBarIcon` now passes a `ColorValue`, not a `string`. Changed the `TabBarIcon` prop type.
+- `expo-doctor` 21/22: one known issue, a **Hermes V1 memory regression** affecting SDK 56; Expo's advice is SDK 57 (expo ≥ 57.0.9). Left for the next step instead of patching around it.
+- Typecheck passes, web export works.
