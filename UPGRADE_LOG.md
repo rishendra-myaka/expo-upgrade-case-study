@@ -32,3 +32,12 @@ Results: typecheck passes; `expo-doctor` passes after the fix, and the Android A
 
 - No code changes needed.
 - Typecheck passes; `expo-doctor` 17/17; **web export works again**: the SDK 51 CLI no longer trips over the `node:sea` built-in on Windows.
+
+## SDK 52 (React Native 0.76, React 18.3, expo-router v4, React Navigation 7)
+
+The hardest step so far: no app code changed, but the dependency tree did.
+- `npx expo install --fix` left `@react-navigation/native` on v6, while expo-router v4 needs v7. Installing v7 explicitly pulled the **newest** 7.x (7.5), and the web build then failed with `Unable to resolve module query-string` inside `expo-router/build/fork/getPathFromState.js`.
+- Cause: expo-router 4 still imports `query-string`, which used to arrive through older React Navigation 7.0 packages; the latest React Navigation internals no longer bring it. Expo's range `^7.0.14` allows the newer version, so it is easy to land here.
+- Fix: add `query-string@^7.1.3` as a direct dependency (expo-router's code uses its v7 CommonJS API), keep `@react-navigation/native` at Expo's expected range `^7.0.14`, and install the new `expo-asset` requirement.
+- Results: typecheck passes, `expo-doctor` 18/18, web export works.
+- Lesson for clients: "it installs" is not "it builds". Run `expo-doctor` and a real export after every SDK step.
