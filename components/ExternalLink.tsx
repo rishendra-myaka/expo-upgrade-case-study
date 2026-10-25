@@ -6,10 +6,8 @@ import { Platform } from 'react-native';
 export function ExternalLink(props: React.ComponentProps<typeof Link>) {
   return (
     <Link
-      hrefAttrs={{
-        // On web, launch the link in a new tab.
-        target: '_blank',
-      }}
+      // On web, launch the link in a new tab (hrefAttrs was replaced by a plain target prop in expo-router v3).
+      target="_blank"
       {...props}
       onPress={(e) => {
         if (Platform.OS !== 'web') {

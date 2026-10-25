@@ -1,9 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ["babel-preset-expo"],
-    plugins: [
-      require.resolve("expo-router/babel"),
-    ],
+    // Since SDK 50, babel-preset-expo includes the expo-router transform; the separate plugin is deprecated.
+    presets: ['babel-preset-expo'],
   };
 };

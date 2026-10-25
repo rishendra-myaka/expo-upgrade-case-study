@@ -16,3 +16,12 @@ Machine: Windows 11, Node 24, npm 11 (deliberately a modern toolchain, as an age
 - Typecheck: **passes again** (TypeScript 5.1 can read the new `@types/node`).
 - `expo-doctor`: 15/16. Warns that SDK 49 targets Android API 33, which Google Play stopped accepting for updates after 31 Aug 2024. Fixed by SDK 50.
 - Web export: **fails on Windows with Node 24**: `ENOENT ... mkdir '.expo\metro\externals\node:sea'`. The SDK 49 CLI creates a shim folder for every Node built-in module; newer Node versions added `node:sea`, and `:` is not allowed in Windows folder names. Not an app bug. Workarounds: use the Node version SDK 49 supported (18 LTS) for this step, or continue to SDK 50, whose CLI handles it. I continued.
+
+## SDK 50 (React Native 0.73, expo-router v3)
+
+Breaking changes fixed:
+- **`<SplashScreen />` component removed from expo-router.** Replaced with `expo-splash-screen`: `preventAutoHideAsync()` at module level, `hideAsync()` once fonts load, render nothing until then (`app/_layout.tsx`).
+- **`Link`'s `hrefAttrs` prop removed.** Use the plain `target="_blank"` prop (`components/ExternalLink.tsx`).
+- **`expo-router/babel` plugin deprecated**: `babel-preset-expo` now includes it, so it was removed from `babel.config.js`.
+
+Results: typecheck passes. Android API target is now 34 (the Play Store warning from SDK 49 is gone). Web export still hits the same Windows + Node 24 `node:sea` folder problem in the SDK 50 CLI; continuing.
