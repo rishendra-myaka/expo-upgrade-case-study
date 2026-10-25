@@ -27,3 +27,8 @@ Breaking changes fixed:
 - **Missing peer dependency**: expo-router v3 needs `expo-constants` installed directly (`expo-doctor` flagged it; without it the app can crash outside Expo Go). Installed with `npx expo install expo-constants`.
 
 Results: typecheck passes; `expo-doctor` passes after the fix, and the Android API 33 store warning from SDK 49 is gone. Web export still hits the same Windows + Node 24 `node:sea` folder problem in the SDK 50 CLI; continuing.
+
+## SDK 51 (React Native 0.74, expo-router 3.5, TypeScript 5.3)
+
+- No code changes needed.
+- Typecheck passes; `expo-doctor` 17/17; **web export works again**: the SDK 51 CLI no longer trips over the `node:sea` built-in on Windows.
